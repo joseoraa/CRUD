@@ -1,0 +1,46 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_creacionIntere();">
+        <spam aria-hidden="true">&times;</spam>
+      </button>
+      <h2 class="text-center"> REGISTRAR    </h2>
+    </div>
+    <form id="form_creacionIntere" action="{% url 'registrar_Intere' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="modal-body">
+
+
+        <p>
+          {{ form.nombre_grupo.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.nombre_grupo }}</div>
+          <div class="alert alert-danger error-nombre_grupo d-none"></div>
+        </p>
+
+        <p>
+          {{ form.status.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.status }}</div>
+          <div class="alert alert-danger error-status d-none"></div>
+        </p>
+
+
+        <p>
+          {{ form.descripcion_grupo.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.descripcion_grupo }}</div>
+          <div class="alert alert-danger error-descripcion_grupo d-none"></div>
+        </p>
+
+        <p>
+          <div onkeypress="return soloNumeros(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.contador_estudiantes }}</div>
+          <div class="alert alert-danger error-contador_estudiantes d-none"></div>
+        </p>
+
+
+        <p> Los campos con (*) son obligatorios</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_creacionIntere();">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="registrarIntere();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+{% extends "Inicio/index.html" %} {% block title %}Listado de Años Escolares
+{%endblock title %} {% block body %}
+
+<style></style>
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Listado de Años Escolares</h2>
+
+  <table class="table table-bordered">
+    <thead class="table-Light text-center">
+      <tr class="text-center">
+        <th>Nombre</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for anio in anios %}
+      <tr class="text-center">
+        <td>{{ anio.nombreano }}</td>
+        <td>{{ anio.fecha_inicio|date:"d/m/Y" }}</td>
+        <td>{{ anio.fecha_fin|date:"d/m/Y" }}</td>
+        <td>
+          {% if anio.activo %}
+          <span class="badge bg-success">Activo</span>
+          {% else %}
+          <span class="badge bg-secondary">Inactivo</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if not anio.activo %}
+          <a
+            href="{% url 'activar_anio_escolar' anio.pk %}"
+            class="btn btn-sm btn-outline-primary"
+          >
+            Activar
+          </a>
+          {% else %}
+          <span class="text-muted">Activo</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

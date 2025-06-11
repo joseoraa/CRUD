@@ -1,0 +1,12 @@
+asgiref==3.8.1
+chardet==5.2.0
+Django==5.0.1
+mysql-connector-python==9.3.0
+mysqlclient==2.2.7
+numpy==2.3.0
+pillow==11.2.1
+pyarrow==20.0.0
+pylance==0.29.0
+reportlab==4.4.1
+sqlparse==0.5.3
+tzdata==2025.2

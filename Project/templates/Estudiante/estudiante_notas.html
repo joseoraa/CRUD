@@ -1,0 +1,158 @@
+{% extends "Inicio/index.html" %}
+{% load static %}
+{% block title %}Listado de Notas{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4.min.css' %}" />
+{% endblock extra_css %}
+
+{% block body %}
+<style>
+  table {
+    margin: auto;
+    border-collapse: collapse;
+    width: 95%;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .errorlist {
+    color: red;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    font-size: 0.85rem;
+  }
+</style>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <strong class="mx-auto">
+      NOTAS DE LOS ESTUDIANTES DEL GRUPO: {{ grupo_asignado }}
+    </strong>
+  </div>
+<div class="container mt-1">
+    <div class="d-flex justify-content-center gap-3">
+        <a href="{% url 'exportar_notas_pdff' '1' %}" class="btn btn-primary btn-lg mt-3 mb-3" target="_blank">
+            🗂 1er Lapso
+        </a>
+        <a href="{% url 'exportar_notas_pdff' '2' %}" class="btn btn-success btn-lg mt-3 ml-3 mb-3" target="_blank">
+            🗂 2do Lapso
+        </a>
+        <a href="{% url 'exportar_notas_pdff' '3' %}" class="btn btn-warning btn-lg mt-3 ml-3 mb-3" target="_blank">
+            🗂 3er Lapso
+        </a>
+        <a href="{% url 'exportar_notas_pdf'%}" class="btn btn-danger btn-lg mt-3 ml-3 mb-3" target="_blank">
+            🗂 Nota Final
+        </a>
+    </div>
+</div>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    <table class="table table-bordered">
+      <caption>Estudiantes y sus Notas</caption>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>CÉDULA</th>
+          <th>NOMBRE Y APELLIDO</th>
+          <th>GRUPO</th>
+          <th>PRIMER LAPSO</th>
+          <th>SEGUNDO LAPSO</th>
+          <th>TERCER LAPSO</th>
+          <th>FECHA DE REGISTRO</th>
+          <th>ACTUALIZACIÓN</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in notas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ item.inscripcion.tipo_cedula_estudiante }} {{ item.inscripcion.cedula_estudiante }}</td>
+          <td>{{ item.inscripcion.nombre_estudiante }} {{ item.inscripcion.apellido_estudiante }}</td>
+          <td>{{ item.inscripcion.nombre_grupo }}</td>
+
+          <td>
+            {{ item.form.corte_1 }}
+            {% for error in item.form.corte_1.errors %}
+              <ul class="errorlist"><li>{{ error }}</li></ul>
+            {% endfor %}
+          </td>
+          <td>
+            {{ item.form.corte_2 }}
+            {% for error in item.form.corte_2.errors %}
+              <ul class="errorlist"><li>{{ error }}</li></ul>
+            {% endfor %}
+          </td>
+          <td>
+            {{ item.form.corte_3 }}
+            {% for error in item.form.corte_3.errors %}
+              <ul class="errorlist"><li>{{ error }}</li></ul>
+            {% endfor %}
+          </td>
+
+          <td>
+            {% if item.form.instance.fecha_registro %}
+              <span class="badge">{{ item.form.instance.fecha_registro|date:"d/m/Y H:i" }}</span>
+            {% else %}
+              <span class="badge">Sin registrar</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if item.form.instance.fecha_actualizacion %}
+              <span class="badge text-dark">{{ item.form.instance.fecha_actualizacion|date:"d/m/Y H:i" }}</span>
+            {% else %}
+              <span class="badge">Sin modificaciones</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success btn-lg">Guardar Todos</button>
+    </div>
+  </form>
+
+
+
+
+  <!-- Leyenda de los lapsos -->
+  <div class="mt-4 text-center">
+    <div class="alert alert-info" role="alert">
+      <strong>📝 Solo puedes editar notas del lapso actual.</strong><br>
+      <hr>
+      <strong>Fechas habilitadas:</strong><br>
+      Primer Lapso: <strong>10 al 24 de diciembre</strong><br>
+      Segundo Lapso: <strong>15 al 29 de abril</strong><br>
+      Tercer Lapso: <strong>10 al 30 de junio</strong>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock body %}

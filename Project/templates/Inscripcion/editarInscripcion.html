@@ -1,0 +1,61 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_edicionInscripcion();">
+        <spam aria-hidden="true">&times;</spam>
+      </button> 
+      <h2 class="text-center"> EDITAR </h2>
+    </div>
+
+
+    <form id="form_edicionInscripcion" action="{% url 'editar_Inscripcion' inscripcion.pk %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="modal-body">
+        <div class="alert alert-danger error-form d-none"></div>
+
+        <p>
+          {{ form.id_estudiante.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_estudiante }}</div>
+          </div>
+          <div class="alert alert-danger error-id_estudiante d-none"></div>
+        </p>
+        
+        <p>
+          {{ form.id_ano.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_ano }}</div>
+          </div>
+          <div class="alert alert-danger error-id_ano d-none"></div>
+        </p>
+
+
+        <p>
+          {{ form.id_g.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_g }}</div>
+          </div>
+          <div class="alert alert-danger error-id_g d-none"></div>
+        </p>
+
+
+        <p>
+          {{ form.ano_curso.label }}
+          <div class="input-group">
+            <div class="w-50">{{ form.ano_curso }}</div>
+            <div class="w-50">{{ form.seccion }}</div>
+          </div>
+          <div class="alert alert-danger error-ano_curso d-none"></div>
+          <div class="alert alert-danger error-seccion d-none"></div>
+        </p>      
+        
+         
+
+        <p> Los campos con (*) son obligatorios</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_edicionInscripcion());">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="editarInscripcion();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>

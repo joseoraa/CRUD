@@ -1,0 +1,79 @@
+{% extends "Inicio/index.html" %}
+{% load static %}
+{% block title %}Fechas de Notas{% endblock title %}
+
+{% block body %}
+<div class="container mt-4">
+  <h2 class="mb-4">Fechas para Cargas de Notas</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    
+    {{ form.non_field_errors }}
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        {{ form.corte_1_inicio.label_tag }} 
+        {{ form.corte_1_inicio }}
+        {% if form.corte_1_inicio.errors %}
+          <div class="text-danger small">{{ form.corte_1_inicio.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        {{ form.corte_1_fin.label_tag }} 
+        {{ form.corte_1_fin }}
+        {% if form.corte_1_fin.errors %}
+          <div class="text-danger small">{{ form.corte_1_fin.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        {{ form.corte_2_inicio.label_tag }} 
+        {{ form.corte_2_inicio }}
+        {% if form.corte_2_inicio.errors %}
+          <div class="text-danger small">{{ form.corte_2_inicio.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        {{ form.corte_2_fin.label_tag }} 
+        {{ form.corte_2_fin }}
+        {% if form.corte_2_fin.errors %}
+          <div class="text-danger small">{{ form.corte_2_fin.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        {{ form.corte_3_inicio.label_tag }} 
+        {{ form.corte_3_inicio }}
+        {% if form.corte_3_inicio.errors %}
+          <div class="text-danger small">{{ form.corte_3_inicio.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        {{ form.corte_3_fin.label_tag }} 
+        {{ form.corte_3_fin }}
+        {% if form.corte_3_fin.errors %}
+          <div class="text-danger small">{{ form.corte_3_fin.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Fechas</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock body %}

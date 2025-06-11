@@ -1,0 +1,12 @@
+{% extends "Inicio/index.html" %} {% load static %} {% block title %} Cambio de
+Contraseña {% endblock title %} {%block body %}
+
+
+<h2 class="modal-title"> Cambiar contraseña del Usuario {{ request.user }} </h2>
+  <form method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Cambiar contraseña</button>
+  </form>
+
+  {% endblock body %}
+</h1>

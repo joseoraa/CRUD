@@ -1,0 +1,56 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_cambioContraseña();">
+        <spam aria-hidden="true">&times;</spam>
+      </button>
+      <h2 class="text-center"> Cambiar contraseña del Usuario: {{ usuario }} </h2>
+    </div>
+    <form id="form_cambiarContraseña" action="{% url 'cambiar_Contraseña' usuario.pk %}" method="POST">{% csrf_token %}
+      <div class="modal-body">
+
+        <p>
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.username }}</div>
+          <div class="alert alert-danger error-username d-none"></div>
+        </p>
+
+        <p>
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.nombre }}</div>
+          <div class="alert alert-danger error-nombre d-none"></div>
+        </p>
+
+        <p>
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.apellido }}</div>
+          <div class="alert alert-danger error-apellido d-none"></div>
+        </p>
+
+        <p>
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.email }}</div>
+          <div class="alert alert-danger error-email d-none"></div>
+        </p>
+
+        <p>
+          {{ form.password1.label }}
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.password1 }}</div>
+          <div class="alert alert-danger error-password1 d-none"></div>
+        </p>
+
+        <p>
+          {{ form.password2.label }}
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.password2 }}</div>
+          <div class="alert alert-danger error-password2 d-none"></div>
+        </p>
+
+        <p>
+          {{ form.usuario_administrador }}
+          <div class="alert alert-danger error-usuario_administrador d-none"></div>
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_cambioContraseña();">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="cambiarContraseña();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>

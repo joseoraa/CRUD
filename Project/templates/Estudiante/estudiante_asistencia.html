@@ -1,0 +1,197 @@
+{% extends "Inicio/index.html" %}
+{% load static %}
+
+{% block title %}Control de Asistencia{% endblock title %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4.min.css' %}" />
+{% endblock extra_css %}
+
+{% block body %}
+<h2>📝 Control de Asistencia</h2>
+<!-- En tu plantilla HTML -->
+
+{% if grupo_asignado %}
+    <p><strong>Grupo:</strong> {{ grupo_asignado.nombre_grupo }}</p>
+    <p><strong>Profesor:</strong> {{ grupo_asignado.nombre_profesor }} {{ grupo_asignado.apellido_profesor }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="button" class="btn btn-primary mb-3" onclick="agregarEncuentro()">➕ Agregar Asistencia</button>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="tablaAsistencias">
+                <thead>
+                    <tr>
+                        <th>Estudiantes</th>
+                        {% for i in asistencias.0.encuentros %}
+                            <th>Asistencia Nº{{ forloop.counter }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in asistencias %}
+                        <tr data-id="{{ registro.inscripcion.pk }}">
+                            <td>{{ registro.inscripcion.nombre_estudiante }} {{ registro.inscripcion.apellido_estudiante }}</td>
+                            {% for asistencia in registro.encuentros %}
+                                <td>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <input type="date" class="form-control mb-1"
+                                            name="fecha_{{ registro.inscripcion.pk }}_{{ asistencia.encuentro_numero }}"
+                                            value="{{ asistencia.fecha_encuentro|date:'Y-m-d' }}" />
+                                        <label>
+                                            <input type="checkbox"
+                                                name="asistencia_{{ registro.inscripcion.pk }}_{{ asistencia.encuentro_numero }}"
+                                                {% if asistencia.asistio %}checked{% endif %}> Asistió
+                                        </label>
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-success mt-3">💾 Guardar Asistencias</button>
+    </form>
+
+<!-- Botones separados para eliminar -->
+<div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="eliminar_todo" class="btn btn-danger mr-4" onclick="return confirm('¿Estás seguro de eliminar TODAS las asistencias del grupo?')">
+            🗑️ Eliminar TODAS
+        </button>
+    </form>
+
+    <form method="post" onsubmit="return confirm('¿Eliminar asistencias del Encuentro específico?')" class="d-flex align-items-center gap-2">
+        {% csrf_token %}
+        <input type="number" name="numero_encuentro_eliminar" min="1" placeholder="N° Asistencia" class="form-control" required style="width: 140px;">
+        <button type="submit" name="eliminar_encuentro" class="btn btn-warning ml-2">
+            🗑️ Eliminar Encuentro
+        </button>
+    </form>
+</div>
+
+
+
+
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        No tiene ningún grupo asignado actualmente.
+    </div>
+{% endif %}
+
+
+{% with asistencias.0.encuentros|length as num_encuentros %}
+{% comment %} <script>
+let encuentroContador = {{ num_encuentros|default:0 }};
+
+function agregarEncuentro() {
+    encuentroContador++;
+    const tabla = document.getElementById("tablaAsistencias");
+
+    // Crear nuevo <th> con input de fecha general para todos los estudiantes
+    const th = document.createElement("th");
+    const fechaInputId = `fecha_general_${encuentroContador}`;
+    th.innerHTML = `
+        Encuentro ${encuentroContador}<br/>
+        <input type="date" id="${fechaInputId}" class="form-control form-control-sm" />
+    `;
+    tabla.querySelector("thead tr").appendChild(th);
+
+    const filas = tabla.querySelectorAll("tbody tr");
+    filas.forEach(fila => {
+        const inscripcionId = fila.dataset.id;
+        const td = document.createElement("td");
+        td.innerHTML = `
+            <div style="display: flex; flex-direction: column;">
+                <input type="date" name="fecha_${inscripcionId}_${encuentroContador}" 
+                       class="form-control mb-1 fecha-encuentro-${encuentroContador}" />
+                <label>
+                    <input type="checkbox" name="asistencia_${inscripcionId}_${encuentroContador}"> Asistió
+                </label>
+            </div>
+        `;
+        fila.appendChild(td);
+    });
+
+    // Sincronizar fecha general con todos los inputs de estudiantes en ese encuentro
+    const fechaGeneralInput = document.getElementById(fechaInputId);
+    fechaGeneralInput.addEventListener('change', function() {
+        const fechaSeleccionada = this.value;
+        document.querySelectorAll(`.fecha-encuentro-${encuentroContador}`).forEach(input => {
+            input.value = fechaSeleccionada;
+        });
+    });
+}
+</script> {% endcomment %}
+<script>
+
+let encuentroContador = {{ num_encuentros|default:0 }};
+
+function agregarEncuentro() {
+    encuentroContador++;
+    const tabla = document.getElementById("tablaAsistencias");
+
+    // Obtener la fecha actual en formato YYYY-MM-DD
+    const hoy = new Date().toISOString().split('T')[0];
+
+    // Crear nuevo <th> con input de fecha general
+    const th = document.createElement("th");
+    const fechaInputId = `fecha_general_${encuentroContador}`;
+    th.innerHTML = `
+        Encuentro ${encuentroContador}<br/>
+        <input type="date" id="${fechaInputId}" class="form-control form-control-sm" max="${hoy}" />
+    `;
+    tabla.querySelector("thead tr").appendChild(th);
+
+    const filas = tabla.querySelectorAll("tbody tr");
+    filas.forEach(fila => {
+        const inscripcionId = fila.dataset.id;
+        const td = document.createElement("td");
+        td.innerHTML = `
+            <div style="display: flex; flex-direction: column;">
+                <input type="date" name="fecha_${inscripcionId}_${encuentroContador}" 
+                       class="form-control mb-1 fecha-encuentro-${encuentroContador}" max="${hoy}" />
+                <label>
+                    <input type="checkbox" name="asistencia_${inscripcionId}_${encuentroContador}"> Asistió
+                </label>
+            </div>
+        `;
+        fila.appendChild(td);
+    });
+
+    // Validar y sincronizar la fecha general
+    const fechaGeneralInput = document.getElementById(fechaInputId);
+    fechaGeneralInput.addEventListener('change', function () {
+        const fechaSeleccionada = new Date(this.value);
+        const hoyDate = new Date();
+        hoyDate.setHours(0, 0, 0, 0); // ignorar hora
+
+        if (fechaSeleccionada > hoyDate) {
+            alert("❌ No puedes seleccionar una fecha futura.");
+            this.value = "";
+            return;
+        }
+
+        // Copiar la fecha válida a todos los campos del encuentro
+        document.querySelectorAll(`.fecha-encuentro-${encuentroContador}`).forEach(input => {
+            input.value = this.value;
+        });
+    });
+}
+</script>
+
+
+
+
+
+
+
+{% endwith %}
+
+{% endblock body %}

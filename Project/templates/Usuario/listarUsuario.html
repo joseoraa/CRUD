@@ -1,0 +1,91 @@
+{% extends "Inicio/index.html" %} {% load static %} {% block title %} Listado de
+Usuarios {% endblock title %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css'  %}"
+/>
+{% endblock extra_css %} {% block body %}
+    <style>
+        table {
+            margin: auto; /* Centra la tabla horizontalmente */
+            border-collapse: collapse; /* Opcional: para un mejor aspecto */
+        }
+        th, td {
+            border: 1px solid black; /* Añade bordes a las celdas */
+            padding: 8px; /* Espaciado interno */
+            text-align: center; /* Centra el texto dentro de las celdas */
+        }
+    </style>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="mx-auto">
+      <strong>Listado de Usuarios</strong>
+    </div>
+    <a
+      class="nav-link"
+      onclick="abrir_modal_creacionUsuario('{% url 'registrar_Usuario' %}');"
+      title="Añadir Usuario"
+      aria-label="Añadir Usuario"
+    >
+      <i class="fa fa-plus"> Añadir Usuario</i> 
+    </a>
+  </div>
+</div>
+
+    <div class="table-stats order-table ov-h">
+      <table id="tabla_usuarios" class="table">
+        <thead>
+          <tr class="text-center">
+            <th>#</th>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo electronico</th>
+            <th>Status</th>
+            <th class="text-center">Opciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="creacionUsuario"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="modal fade"
+    id="edicionUsuario"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="modal fade"
+    id="eliminacionUsuario"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="modal fade"
+    id="cambioContraseña"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  ></div>
+
+  {% endblock body %} {% block extrajs %}
+  <script src="{% static 'js/lib/data-table/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/usuario.js' %}"></script>
+  {% endblock extrajs %}
+</div>

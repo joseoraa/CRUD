@@ -1,0 +1,72 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_creacionHorario();">
+        <spam aria-hidden="true">&times;</spam>
+      </button>
+      <h2 class="text-center"> REGISTRAR  </h2>
+    </div>
+    <form id="form_creacionHorario" action="{% url 'registrar_Horario' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="modal-body">
+        <div class="alert alert-danger error-form d-none"></div>
+        <p>
+          {{ form.id_p.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_p }}</div>
+          </div>
+          <div class="alert alert-danger error-id_p d-none"></div>
+        </p>
+
+
+        <p>
+          {{ form.id_ano.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_ano }}</div>
+          </div>
+          <div class="alert alert-danger error-id_ano d-none"></div>
+        </p>
+
+        <p>
+          {{ form.id_g.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_g }}</div>
+          </div>
+          <div class="alert alert-danger error-id_g d-none"></div>
+        </p>
+
+
+        <p>
+          {{ form.semana_grupo.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.semana_grupo }}</div>
+          </div>
+          <div class="alert alert-danger error-semana_grupo d-none"></div>
+        </p>
+        
+        <div style="display: flex; justify-content: space-between;">
+            <p style="margin-right: 20px;">
+                {{ form.hora_inicio.label }}
+                <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.hora_inicio }}</div>
+                <div class="alert alert-danger error-hora_inicio d-none"></div>
+            </p>
+            <p>
+                {{ form.hora_final.label }}
+                <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.hora_final }}</div>
+                
+                <div class="alert alert-danger error-hora_final d-none"></div>
+            </p>
+        </div>
+
+        <p> La hora de Inicio del grupo de Interes debe ser menor que la hora final </p>
+        <br>
+        <p> Los campos con (*) son obligatorios</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_creacionHorario();">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="registrarHorario();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>
+

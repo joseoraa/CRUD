@@ -1,0 +1,63 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_edicionActividad();">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="text-center">EDITAR </h2>
+    </div>
+
+    <form id="form_edicionActividad" action="{% url 'editar_Actividad' actividad.pk %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-body">
+
+        <p>
+          {{ form.nombre_actividad.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">
+            {{ form.nombre_actividad }}
+          </div>
+          <div class="alert alert-danger error-nombre_actividad d-none"></div>
+        </p>
+
+        <p>
+          {{ form.descripcion_actividad.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">
+            {{ form.descripcion_actividad }}
+          </div>
+          <div class="alert alert-danger error-descripcion_actividad d-none"></div>
+        </p>
+
+        <p>
+          {{ form.id_pla.label }}
+          <div class="input-group w-100">
+            {{ form.id_pla }}
+          </div>
+          <div class="alert alert-danger error-id_pla d-none"></div>
+        </p>
+
+        <p>
+          {{ form.fecha_Actividad.label }}
+          <div oncopy="return false" onpaste="return false" oncut="return false">
+            {{ form.fecha_Actividad }}
+          </div>
+          <div class="alert alert-danger error-fecha_Actividad d-none"></div>
+        </p>
+
+        <p>
+          {{ form.id_g.label }}
+          <div class="input-group w-100">
+            {{ form.id_g }}
+          </div>
+          <div class="alert alert-danger error-id_g d-none"></div>
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_edicionActividad();">Cancelar</button>
+        <button id="boton_edicion" class="btn btn-primary" type="button" onclick="editarActividad();">Confirmar</button>
+      </div>
+
+    </form>
+  </div>
+</div>

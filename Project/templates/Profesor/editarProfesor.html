@@ -1,0 +1,56 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_edicionProfesor();">
+        <spam aria-hidden="true">&times;</spam>
+      </button>
+      <h2 class="text-center"> EDITAR </h2>
+    </div>
+    <form id="form_edicionProfesor" action="{% url 'editar_Profesor' profesor.pk %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="modal-body">
+
+        <p>
+          {{ form.cedula_profesor.label }}
+          <div class="input-group">
+            <div class="w-25">{{ form.tipo_cedula_profesor }}</div>
+            <div class="w-75" onkeypress="return soloNumeros(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.cedula_profesor }}</div>
+          </div>
+          <div class="alert alert-danger error-tipo_cedula_profesor d-none"></div>
+          <div class="alert alert-danger error-cedula_profesor d-none"></div>
+        </p>
+
+        <p>
+          {{ form.nombre_profesor.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.nombre_profesor }}</div>
+          <div class="alert alert-danger error-nombre_profesor d-none"></div>
+        </p>
+
+        <p>
+          {{ form.apellido_profesor.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.apellido_profesor }}</div>
+          <div class="alert alert-danger error-apellido_profesor d-none"></div>
+        </p>
+
+        <p>
+          {{ form.telefono_Profesor.label }}
+          <div onkeypress="return soloNumeros(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.telefono_Profesor }}</div>
+          <div class="alert alert-danger error-telefono_Profesor d-none"></div>
+        </p>
+
+        <p>
+          {{ form.id_cargo.label }}
+          <div class="input-group">
+            <div class="w-100">{{ form.id_cargo }}</div>
+          </div>
+          <div class="alert alert-danger error-id_cargo d-none"></div>
+        </p>
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_edicionProfesor();">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="editarProfesor();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button
+        title="Cerrar"
+        aria-label="Cerrar"
+        class="close"
+        type="button"
+        onclick="cerrar_modal_creacionActividad();"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h2 class="modal-title text-center w-100">REGISTRAR</h2>
+    </div>
+
+    <form
+      id="form_creacionActividad"
+      action="{% url 'registrar_Actividad' %}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="modal-body">
+        <div class="form-group">
+          {{ form.nombre_actividad.label_tag }}
+          <div
+            onkeypress="return soloLetras(event)"
+            oncopy="return false"
+            onpaste="return false"
+            oncut="return false"
+          >
+            {{ form.nombre_actividad }}
+          </div>
+          <div
+            class="alert alert-danger error-nombre_actividad d-none mt-1"
+          ></div>
+        </div>
+
+        <div class="form-group">
+          {{ form.descripcion_actividad.label_tag }}
+          <div
+            onkeypress="return soloLetras(event)"
+            oncopy="return false"
+            onpaste="return false"
+            oncut="return false"
+          >
+            {{ form.descripcion_actividad }}
+          </div>
+          <div
+            class="alert alert-danger error-descripcion_actividad d-none mt-1"
+          ></div>
+        </div>
+
+        <div class="form-group">
+          {{ form.fecha_Actividad.label_tag }}
+          <div
+            oncopy="return false"
+            onpaste="return false"
+            oncut="return false"
+          >
+            {{ form.fecha_Actividad }}
+          </div>
+          <div
+            class="alert alert-danger error-fecha_Actividad d-none mt-1"
+          ></div>
+        </div>
+
+        <div class="form-group">
+          {{ form.id_pla.label_tag }}
+          <div class="w-100">{{ form.id_pla }}</div>
+          <div class="alert alert-danger error-id_pla d-none mt-1"></div>
+        </div>
+
+        <div class="form-group">
+          {{ form.id_g.label_tag }}
+          <div class="w-100">{{ form.id_g }}</div>
+          <div class="alert alert-danger error-id_g d-none mt-1"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button
+          class="btn btn-secondary"
+          type="button"
+          onclick="cerrar_modal_creacionActividad();"
+        >
+          Cancelar
+        </button>
+        <button id="boton_creacion" class="btn btn-primary" type="submit">
+          Confirmar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    // Hacemos que el formulario llame registrarActividad() al enviar
+    $("#form_creacionActividad").on("submit", function (e) {
+      e.preventDefault();
+      registrarActividad();
+    });
+  });
+</script>

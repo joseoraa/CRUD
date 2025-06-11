@@ -1,0 +1,461 @@
+{% load static %}
+<!Doctype html>
+<html class="no-js" lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %} GRUPO DE INTERES {% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{% static 'images/grupo.png' %}" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="{% static 'css/cs-skin-elastic.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}
+    {% endblock extra_css %}
+    <style>
+        .small-image {
+            width: 80px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-top: 50px; /* Agrega un margen superior */
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .toast {
+            font-size: 20px; /* Aumenta el tamaño de la fuente */
+            text-align: center; /* Centra el texto */
+        }
+
+        #right-panel {
+            background-color: white; /* Cambia el color de fondo a blanco */
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Left Panel -->
+    <aside id="left-panel" class="left-panel">
+        <nav class="navbar navbar-expand-sm navbar-default">
+            <div id="main-menu" class="main-menu">
+                <ul class="nav navbar-nav">
+                    {% if request.user.is_staff %}
+                    
+                    <hr width="100%">  
+                    <li class="dropdown">
+                        <a href="{% url 'inicio_Usuario' %}"><i class="menu-icon fa fa-user"></i>COORDINADOR(a) {{ user.nombre }}</a>
+                    </li>                   
+                    
+                    <hr width="100%">
+                    
+                    <li class="dropdown">
+                
+                        <a href="{% url 'home' %}"><i class="menu-icon fa fa-home"></i>Inicio</a>
+                    </li>
+
+
+
+                    <li class="menu-item-has-children dropdown">
+                       <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Registros</a>
+                       <ul class="sub-menu children dropdown-menu">
+                           <li><i class="fa fa-table"></i><a href="{% url 'crear_anio' %}">Año Escolar</a></li>
+                           {% comment %} <li><i class="fa fa-table"></i><a href="{% url 'listar_anios' %}">Listado Escolar</a></li> {% endcomment %}
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Estudiante' %}">Estudiante</a></li>
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Cargo' %}">Especialidades</a></li>
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Profesor' %}">Profesores</a></li> 
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Intere' %}">Grupos</a></li>
+                       </ul>
+
+                    </li>
+
+
+                     {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar_anios' %}">
+                            <i class="menu-icon fa fa-list"></i> <!-- Cambio a "fa-users" -->
+                            Años Listado 
+                        </a>
+                    </li>   {% endcomment %}
+                    <li class="menu-item-has-children dropdown">
+                       <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Inscripciones</a>
+                       <ul class="sub-menu children dropdown-menu">
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Horario' %}">Horarios </a></li>
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Inscripcion' %}">Inscripcion</a></li>   
+ 
+                       </ul>
+                    </li>
+                    <li class="dropdown">
+                
+                        <a href="{% url 'listar_anios' %}"><i class="menu-icon fa fa-list"></i>Listado de Años</a>
+                        <a href="{% url 'listado_estudiante_horario' %}"><i class="menu-icon fa fa-list"></i>Listado de Grupos</a>
+                        
+                    </li>
+                    
+                    <hr width="100%">
+                    
+                    <li class="menu-item-has-children dropdown">
+                       <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-book"></i>Profesores </a>
+                       
+                       <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-table"></i><a href="{% url 'listado_grupos' %}">Planificacion</a></li> 
+                            {% comment %} <li><i class="fa fa-table"></i><a href="{% url 'inicio_Actividad' %}">Actividades</a></li>  {% endcomment %}
+                            {% comment %} <li><i class="fa fa-table"></i><a href="{% url 'inicio_Nota' %}">Notas</a></li> {% endcomment %}
+                        </ul>
+                    </li>               
+
+                    <hr width="100%">
+
+                    
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-file"></i>Reportes</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-file"></i><a href="{%url 'exportar_estudiantes_pdf'%}"> Reportes de Estudiantes</a></li>
+                            <li><i class="fa fa-file"></i><a href="{%url 'exportar_estudiantes_masculinos_pdf'%}"> Estudiantes Masculinos</a></li>
+                            <li><i class="fa fa-file"></i><a href="{%url 'exportar_estudiantes_femeninas_pdf'%}"> Estudiantes Femeninos</a></li>
+
+                            <li><i class="fa fa-file"></i><a href="{%url 'exportar_profesores_pdf'%}"> Reportes de Profesores</a></li>  
+                            <li><i class="fa fa-file"></i> <a href="{% url 'exportar_grupos_disponibles_pdf' %}">Grupos Disponibles</a></li>
+
+                            
+
+  
+                        </ul>
+                    </li> 
+
+                    <hr width="100%">
+
+                    <li class="menu-item-has-children dropdown">
+                       <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Soporte</a>
+                       <ul class="sub-menu children dropdown-menu">
+                           <li><i class="fa fa-table"></i><a href="{% url 'inicio_Usuario' %}">Gestión de usuarios</a></li>
+                           {% comment %} <li><i class="fa fa-table"></i><a href="{% url 'gestionar_fechas_corte' %}">Gestión de Fechas de cortes</a></li> {% endcomment %}
+
+                           
+                        </ul>       
+                    </li>
+                    {% else %}  
+                                                <!-- Separador -->
+                        <li class="nav-item">
+                            <hr class="my-2">
+                        </li>
+                        <ul class="nav flex-column">
+
+                            <!-- Usuario -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="menu-icon fa fa-user"></i>
+                                    Profesor(a) {{ user.nombre }}
+                                </a>
+                            </li>
+
+                            <!-- Separador -->
+                            <li class="nav-item">
+                                <hr class="my-2">
+                            </li>
+
+                            <!-- Inicio -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'home' %}">
+                                    <i class="menu-icon fa fa-home"></i>
+                                    Inicio
+                                </a>
+                            </li>
+
+                            <!-- Separador -->
+                            <li class="nav-item">
+                                <hr class="my-2">
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'consultar_estudiantes' %}">
+                                    <i class="menu-icon fa fa-users"></i> <!-- Cambio a "fa-users" -->
+                                    Estudiantes Asignados
+                                </a>
+                            </li>
+
+                            <!-- Grupo Asignado -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'consultargrupo' %}">
+                                    <i class="menu-icon fa fa-users"></i>
+                                    Registro Planificación
+                                </a>
+                            </li>
+
+                            <!-- Estudiantes Asignados -->
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'listar_planificaciones' %}">
+                                    <i class="menu-icon fa fa-users"></i> <!-- Cambio a "fa-users" -->
+                                    Planificación
+                                </a>
+                            </li>
+
+                            <!-- Notas -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'consultar_estudiantes_notas' %}">
+                                    <i class="menu-icon fa fa-book"></i> <!-- Cambio a "fa-book" -->
+                                    Notas
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'consultar_estudiantes_asistencia' %}">
+                                    <i class="menu-icon fa fa-book"></i> <!-- Cambio a "fa-book" -->
+                                    Asistencia
+                                </a>
+                            </li> 
+
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-file"></i>Reportes</a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-file"></i><a href="{% url 'generar_reporte_pdf' %}"> Estudiantes Asignado</a></li>
+                            <li><i class="fa fa-file"></i><a href="{% url 'exportar_asistencias_pdf' %}"> Asistencias</a></li>
+
+                      
+                            <li><i class="fa fa-file"></i><a href="{% url 'exportar_notas_pdf' %}"> Notas Finales</a></li>                            
+                        </ul>
+                    </li> 
+
+
+
+                        </ul>
+                                        {% endif %}
+                <hr width="100%">
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</aside>     
+
+    <!-- /#left-panel -->
+    <!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+        <header id="header" class="header">
+            <div class="top-left">
+                <div class="navbar-header">
+                    <a id="menuToggle" class="menutoggle col"><i class="fa fa-bars"></i></a>
+                    <a class="navbar-brand col" href="{% url 'home' %}">
+                        <img id="logo" src="{% static 'images/lg.png' %}" alt="Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="top-right">
+                <div class="header-menu">
+                	<div class="navbar-brand"><div id="reloj"></div></div>
+                    <div class="user-area dropdown float-right">
+                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="user-avatar rounded-circle" src="{% static 'images/admin.png' %}">
+                        </a>
+                        
+       
+                        <div class="user-menu dropdown-menu">
+                        <a href="{% url 'cambiocontraseña' %}">Contraseña</a></li>
+                        
+                            {% comment %} <a class="nav-link" href="{% url 'cambiar_Mi_Contraseña'%}"><i class="fa fa-lock"></i>Cambiar Contraseña</a> {% endcomment %}
+  
+                            <a class="nav-link" href="{% url 'logout' %}" onclick="return confirm('¿Estás seguro de que deseas cerrar sesión?');">
+                                <i class="fa fa-power-off"></i> Cerrar sesión
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+{% comment %} nota para pendejos: A PARTIR DE AQUI VIENE LA PARTE DEL CUERPO DEL SISTEMA (IMAGENES, TITULOS, CONTADORES ENTRE OTROS) {% endcomment %}
+
+        <div class="content">
+            <div>
+                <div class="row">
+                    <div class="col-lg-12">
+                      {% block body %}
+                        <div class="col-md-12 prueba">
+                             
+                            <strong><h1 class="text-dark text-light text-center">GRUPO DE INTERES </strong></h1>
+                            
+
+                            
+
+
+{% if request.user.is_staff %}
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'inicio_Estudiante' %}"> <!-- Cambia URL_DE_ESTUDIANTES por la dirección deseada -->
+                    <img class="small-image" src="{% static 'images/dios.png' %}" alt="Estudiantes">
+                </a>
+                <p>Estudiantes: <strong>{{ total_estudiantes }}</strong></p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'inicio_Profesor' %}"> <!-- Cambia URL_DE_PROFESORES por la dirección deseada -->
+                    <img class="small-image" src="{% static 'images/prof.png' %}" alt="Profesores">
+                </a>
+                <p>Profesores: <strong>{{ total_profesores }}</strong></p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'inicio_Intere' %}"> <!-- Cambia URL_DE_GRUPOS por la dirección deseada -->
+                    <img class="small-image" src="{% static 'images/estu.png' %}" alt="Grupo de Interés">
+                </a>
+                <p>Grupos de Interes: <strong>{{ total_grupos }}</strong></p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'inicio_Inscripcion' %}"> <!-- Cambia URL_DE_INSCRIPCIONES por la dirección deseada -->
+                    <img class="small-image" src="{% static 'images/incri.png' %}" alt="Inscripciones">
+                </a>
+                <p>Inscripciones: <strong>{{ total_inscripcion }}</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+ {% else %}
+
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'consultar_estudiantes' %}">
+                    <img class="small-image" src="{% static 'images/estu.png' %}" alt="Estudiantes">
+                </a>
+                <p>Estudiantes: <strong>{{ total_estudiantes }}</strong></p>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="image-item">
+                <a href=" {%url 'consultargrupo'%}">
+                    <img class="small-image" src="{%static 'images/incri.png'%}" alt="Grupo de Interés">
+                </a>
+                <p>Planificación: <strong>{{ total_planificaciones }}</strong></p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="image-item">
+                <a href="{% url 'consultargrupo' %}">
+                    <img class="small-image" src="{% static 'images/acti.png' %}" alt="Inscripciones">
+                </a>
+                <p>Actividades: <strong>{{ total_actividades }}</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+                        
+                      {% endblock body %}
+                </div>
+            </div>
+        </div>
+        <!-- /.content -->
+        <div class="clearfix"></div>
+        <!-- Footer -->
+        <footer class="site-footer">
+
+        
+        </footer>
+        <!-- /.site-footer -->
+    </div>
+
+    
+
+
+        </div>
+    <!-- /#right-panel -->
+   {% if messages %}
+       <script>
+           $(document).ready(function() {
+               toastr.options = {
+                   "closeButton": true,
+                   "debug": false,
+                   "newestOnTop": true,
+                   "progressBar": true,
+                   "positionClass": "toast-top-center", // Cambia la posición a centro
+                   "preventDuplicates": false,
+                   "onclick": null,
+                   "showDuration": "300",
+                   "hideDuration": "1000",
+                   "timeOut": "5000",
+                   "extendedTimeOut": "1000",
+                   "showEasing": "swing",
+                   "hideEasing": "linear",
+                   "showMethod": "fadeIn",
+                   "hideMethod": "fadeOut"
+               };
+
+               {% for message in messages %}
+                   toastr.success("{{ message }}");
+               {% endfor %}
+           });
+       </script>
+   {% endif %}
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+	<script>
+	function actualizarReloj() {
+		var hoy = new Date();
+        var dia = hoy.getDate();
+        var mes = hoy.getMonth() + 1; // Se suma 1 ya que los meses empiezan en 0
+        var anio = hoy.getFullYear(); 
+		var hora = hoy.getHours();
+		var minutos = hoy.getMinutes();
+		var segundos = hoy.getSeconds();
+		var ampm = hora >= 12 ? 'PM' : 'AM';  // Determina si es AM o PM
+
+		// Convertir de formato de 24 horas a 12 horas
+		hora = hora % 12;
+		hora = hora ? hora : 12;  // Si es 0, se muestra como 12 en formato 12 horas
+		minutos = agregarCeros(minutos);
+		segundos = agregarCeros(segundos);
+
+		// Mostrar la hora en el elemento <div> con el id "reloj"
+		document.getElementById("reloj").innerHTML = dia + "/" + mes + "/" + anio + " " + hora + ":" + minutos + ":" + segundos + " " + ampm;
+	}
+
+	function agregarCeros(i) {
+		if (i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	}
+
+	setInterval(actualizarReloj, 1000);
+
+	</script>
+
+    {% block extrajs %}
+    {% endblock extrajs %}
+</body>
+</html>
+

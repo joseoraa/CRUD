@@ -1,0 +1,84 @@
+{% extends "Inicio/index.html" %} {% load static %} {% block title %} Listado de
+Profesores {% endblock title %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css'  %}"
+/>
+<link rel="stylesheet" href="{% static 'css/select2.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4.min.css' %}" />
+{% endblock extra_css %} {% block body %}
+    <style>
+        table {
+            margin: auto; /* Centra la tabla horizontalmente */
+            border-collapse: collapse; /* Opcional: para un mejor aspecto */
+        }
+        th, td {
+            border: 1px solid black; /* Añade bordes a las celdas */
+            padding: 8px; /* Espaciado interno */
+            text-align: center; /* Centra el texto dentro de las celdas */
+        }
+    </style>
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <strong class="mx-auto">Listado de Horario</strong>
+      <a
+        class="nav-link"
+        onclick="abrir_modal_creacionHorario('{% url 'registrar_Horario' %}');"
+        title="Añadir Horario"
+        aria-label="Añadir Horario"
+      >
+        <i class="fa fa-plus"> Añadir Horario</i> 
+      </a>
+    </div>
+  </div>
+
+  <div class="table-stats order-table ov-h">
+    <table id="tabla_horarios" class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Profesor Asignado</th>
+          <th>Año Escolar</th>
+          <th>Grupo de Interes</th>
+          <th>Dia de Actividad</th>
+          <th>Hora de Inicio</th>
+          <th>Hora Final</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="creacionHorario"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+></div>
+
+<div
+  class="modal fade"
+  id="edicionHorario"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+></div>
+
+<div
+  class="modal fade"
+  id="eliminacionHorario"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+></div>
+
+{% endblock body %} {% block extrajs %}
+<script src="{% static 'js/lib/data-table/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'js/horario.js' %}"></script>
+<script src="{% static 'js/i18n/es.js' %}"></script>
+<script src="{% static 'js/select2.min.js' %}"></script>
+{% endblock extrajs %}

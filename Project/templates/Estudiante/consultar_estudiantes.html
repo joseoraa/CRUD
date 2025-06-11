@@ -1,0 +1,76 @@
+{% extends "Inicio/index.html" %} {% load static %} {% block title %}Listado de
+Planificación{% endblock title %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{% static 'css/lib/datatable/dataTables.bootstrap.min.css' %}"
+/>
+<link rel="stylesheet" href="{% static 'css/select2.min.css' %}" />
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4.min.css' %}" />
+{% endblock extra_css %} {% block body %}
+<style>
+  table {
+    margin: auto;
+    border-collapse: collapse;
+  }
+  th,
+  td,
+  tr {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+</style>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <strong class="mx-auto"
+      >GRUPO ASIGNADO: {{ grupo_asignado.nombre_grupo }}</strong
+    >
+    <a href="{% url 'generar_reporte_pdf' %}" class="btn btn-primary"
+      >Descargar Listado</a
+    >
+  </div>
+</div>
+
+<div class="container">
+  {% if grupo_asignado %} {% if estudiantes_inscritos %}
+  <div class="table-responsive mt-5">
+    <table class="table table-bordered table-striped">
+      <thead class="thead-secondary">
+        <tr>
+          <th>#</th>
+          <th>Cédula</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Año Escolar</th>
+          <th>Año Cursante</th>
+          <th>Sección</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for estudiante in estudiantes_inscritos %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>
+            {{ estudiante.tipo_cedula_estudiante }}
+            {{estudiante.cedula_estudiante }}
+          </td>
+          <td>{{ estudiante.nombre_estudiante }}</td>
+          <td>{{ estudiante.apellido_estudiante }}</td>
+          <td>{{ estudiante.nombreano }}</td>
+          <td>{{ estudiante.ano_curso }}</td>
+          <td>{{ estudiante.seccion }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-center mt-4">No hay estudiantes inscritos en este grupo.</p>
+  {% endif %} {% else %}
+  <p class="text-center mt-4">
+    No tienes un grupo asignado para el año escolar activo.
+  </p>
+  {% endif %}
+</div>
+{% endblock body %}

@@ -1,0 +1,77 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button title="Cerrar" aria-label="Cerrar" class="close" type="button" onclick="cerrar_modal_creacionPlanificacion();">
+        <spam aria-hidden="true">&times;</spam>
+      </button>
+      <h2 class="text-center">  REGISTRAR </h2>
+    </div>
+
+    <style>
+    select {
+        width: 200px; /* Ancho del select */
+        padding: 10px; /* Espaciado interno */
+        border: 2px solid #4CAF50; /* Borde */
+        border-radius: 5px; /* Bordes redondeados */
+        background-color: #f9f9f9; /* Color de fondo */
+        font-size: 16px; /* Tamaño de fuente */
+        color: #333; /* Color del texto */
+    }
+
+    select:focus {
+        border-color: #4CAF50; /* Color del borde al enfocar */
+        outline: none; /* Sin contorno */
+    }
+</style>
+    <form id="form_creacionPlanificacion" action="{% url 'registrar_Planificacion' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+      <div class="modal-body">
+
+
+
+        <p>
+          {{ form.nombre_pla.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.nombre_pla }}</div>
+          <div class="alert alert-danger error-nombre_pla d-none"></div>
+        </p>
+
+        <p>
+            {{ form.id_g.label }}
+            <div class="input-group">
+                <div class="w-100">{{ form.id_g }}</div>
+            </div>
+            <div class="alert alert-danger error-id_g d-none"></div>
+        </p>
+
+        <p>
+          {{ form.limite_actividades.label }}
+          <div onkeypress="return soloNumeros(event)">{{ form.limite_actividades }}</div>
+          <div class="alert alert-danger error-limite_actividades d-none"></div>
+        </p>
+
+        <p>
+          {{ form.fecha_inicio.label }}
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.fecha_inicio }}</div>
+          <div class="alert alert-danger error-fecha_inicio d-none"></div>
+        </p>
+
+        <p>
+          {{ form.fecha_final.label }}
+          <div oncopy="return false" onpaste="return false" oncut="return false">{{ form.fecha_final }}</div>
+          <div class="alert alert-danger error-fecha_final d-none"></div>
+        </p> 
+
+        <p>
+          {{ form.observacion.label }}
+          <div onkeypress="return soloLetras(event)" oncopy="return false" onpaste="return false" oncut="return false">{{ form.observacion }}</div>
+          <div class="alert alert-danger error-observacion d-none"></div>
+        </p>
+
+        <p> Los campos con (*) son obligatorios</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" type="button" onclick="cerrar_modal_creacionPlanificacion();">Cancelar</button>
+        <button id="boton_creacion" class="btn btn-primary" type="button" onclick="registrarPlanificacion();">Confirmar</button>
+        </div>
+    </form>
+  </div>
+</div>
